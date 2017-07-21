@@ -1,31 +1,15 @@
 var builder = require('botbuilder');
-var request = require('request');
 
-module.exports = [
+var builder_cognitiveservices = require("botbuilder-cognitiveservices");
 
-    function (session) {
-        var params= {
-            'question':'what is teamspace'
-        };
+var recognizer = new builder_cognitiveservices.QnAMakerRecognizer({
+                knowledgeBaseId:'cf9b221d-5bd9-462e-a970-6fbc0eaf3aaf', 
+    subscriptionKey: 'dd2fbb20bb7d4786bb97105f41c63afd'});
 
-        var requestData = {
-            url:"https://westus.api.cognitive.microsoft.com/qnamaker/v2.0/knowledgebases/cf9b221d-5bd9-462e-a970-6fbc0eaf3aaf/generateAnswer?"+ $.param(params),
-            headers:{
-                'Content-Type':'application/json',
-                'Ocp-Apim-Subscription-Key':'dd2fbb20bb7d4786bb97105f41c63afd'
-            }
-        };
-    
-        request.post(requestData,function(error, respose, body){
-            console.log(error);
-            console.log(response);
-            console.log(body);
-        });
-        session.send("hello");
+var basicQnAMakerDialog = new builder_cognitiveservices.QnAMakerDialog({
+    recognizers: [recognizer],
+                defaultMessage: 'Sorry, we can\'t find the answer, please try another term!',
+                qnaThreshold: 0.3}
+);
 
-        session.endDialog();
-
-    }
-
-
-];
+module.exports = basicQnAMakerDialog;

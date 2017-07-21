@@ -6,8 +6,10 @@
   "dependencies": {
     "botbuilder": "^3.7.0",
     "botbuilder-azure": "3.0.2",
+    "botbuilder-cognitiveservices": "^1.1.0",
     "jquery": "^3.2.1",
-    "request": "^2.81.0"
+    "request": "^2.81.0",
+    "tedious": "^2.0.0"
   },
   "devDependencies": {
     "restify": "^4.3.0"
