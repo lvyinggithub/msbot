@@ -24,45 +24,29 @@ var bot = new builder.UniversalBot(connector);
 bot.localePath(path.join(__dirname, './locale'));
 
 
-var luis_model_url = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/342e159a-d628-4be5-ab92-71e7b78a34c6?subscription-key=30bb88b89ec541859a7ab3dfdce72422&verbose=true";
+//var luis_model_url = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/342e159a-d628-4be5-ab92-71e7b78a34c6?subscription-key=30bb88b89ec541859a7ab3dfdce72422&verbose=true";
+var luis_model_url = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/30a1be7e-d080-4bc4-86f9-72f04db269eb?subscription-key=0157389809544280bfd9d66763c7836f&verbose=true";
 var recognizer = new builder.LuisRecognizer(luis_model_url);
 bot.recognizer(recognizer);
 
 bot.dialog('/', [
     function (session) {
-        builder.Prompts.text(session, "Hello...Nice to meet you again... What's your name?");
-    },
-    function (session, results) {
-        session.userData.name = results.response;
-        builder.Prompts.number(session, "Hi " + results.response + ", How many years have you been coding?");
-    },
-    function (session, results) {
-        session.userData.coding = results.response;
-        builder.Prompts.choice(session, "What language do you code Node using?", ["JavaScript", "CoffeeScript", "TypeScript"]);
-    },
-    function (session, results) {
-        session.userData.language = results.response.entity;
-        session.send("Got it... " + session.userData.name +
-            " you've been programming for " + session.userData.coding +
-            " years and use " + session.userData.language + ".");
-
-        // session.question = session.userData.name;
-        // session.beginDialog("teamspace");
+        session.send("Sorry, I can't understand you.");
     }
 ]);
 
 bot.dialog('qna', require('./qna.js')).triggerAction({
-    matches: "Teamspace"
+    matches: "QnA"
 });
 
 //integrate with querySD
 bot.dialog('querysd', require('./querySD.js')).triggerAction({
-    matches: "感谢"
+    matches: "SearchSD"
 });
 
 //integrate with querySD
 bot.dialog('createsd', require('./createSD.js')).triggerAction({
-    matches: "申请产品"
+    matches: "CreateSD"
 });
 
 //integrate with qnamaker

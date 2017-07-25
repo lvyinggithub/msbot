@@ -1,7 +1,9 @@
 var builder = require("botbuilder");
 var mockupdata = require("./data.js");
+var helper = require("./helper.js");
 var data = mockupdata.data;
 var maxId = mockupdata.maxId;
+
 
 module.exports = [
     function (session) {
@@ -29,8 +31,7 @@ module.exports = [
         session.userData.urgency = results.response.entity;
 
         var sdNbr = maxId + 1;
-
-        data.push({
+        var result = {
 
             'id': 'SD' + sdNbr,
             'title': session.userData.title,
@@ -42,10 +43,18 @@ module.exports = [
             'resolution': ''
 
 
-        });
+        };
+        data.push(result);
 
         maxId += 1;
+
+        var card = helper.createThumbnailCard(session, result);
+        var msg = new builder.Message(session);
+        msg.addAttachment(card);
+        
         session.send('Your ticket as been successfully registered.');
+        session.send(msg);
+
     }
 
 ];
