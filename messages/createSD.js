@@ -7,6 +7,8 @@ var maxId = mockupdata.maxId;
 
 module.exports = [
     function (session) {
+        console.log(process.env);
+        session.send(session.message.user.name);
         session.userData.user = process.env.USERDOMAIN;
         builder.Prompts.text(session, "Hi " + process.env.USERDOMAIN + ", what is the title of your ticket?");
     },
@@ -48,7 +50,7 @@ module.exports = [
         var card = helper.createThumbnailCard(session, result);
         var msg = new builder.Message(session);
         msg.addAttachment(card);
-        
+
         session.send('Your ticket as been successfully registered.');
         session.send(msg);
 
