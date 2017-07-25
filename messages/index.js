@@ -8,9 +8,9 @@ var builder = require("botbuilder");
 var botbuilder_azure = require("botbuilder-azure");
 var path = require('path');
 
-var useEmulator = true; // (process.env.NODE_ENV == 'development');
+//var useEmulator = true; // (process.env.NODE_ENV == 'development');
 
-//var useEmulator =  (process.env.NODE_ENV == 'development');
+var useEmulator =  (process.env.NODE_ENV == 'development');
 
 
 var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure.BotServiceConnector({
@@ -51,14 +51,19 @@ bot.dialog('/', [
     }
 ]);
 
-// bot.dialog('teamspace', require('./teamspace.js')).triggerAction({
-//     matches:"Teamspace"
-// });
+bot.dialog('qna', require('./qna.js')).triggerAction({
+    matches: "Teamspace"
+});
 
 //integrate with querySD
 bot.dialog('querysd', require('./querySD.js')).triggerAction({
-    matches:"Teamspace"
-}); 
+    matches: "感谢"
+});
+
+//integrate with querySD
+bot.dialog('createsd', require('./createSD.js')).triggerAction({
+    matches: "申请产品"
+});
 
 //integrate with qnamaker
 // bot.dialog('qna', require('./qna.js')).triggerAction({
