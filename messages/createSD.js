@@ -7,8 +7,8 @@ var maxId = mockupdata.maxId;
 
 module.exports = [
     function (session) {
-        session.userData.user = process.env.USERNAME;
-        builder.Prompts.text(session, "Hi " + process.env.USERNAME + ", what is the title of your ticket?");
+        session.userData.user = process.env.USERDOMAIN;
+        builder.Prompts.text(session, "Hi " + process.env.USERDOMAIN + ", what is the title of your ticket?");
     },
     function (session, results) {
         session.userData.title = results.response;
