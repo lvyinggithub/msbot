@@ -7,9 +7,9 @@ var maxId = mockupdata.maxId;
 
 module.exports = [
     function (session) {
-        builder.Prompts.text("What is your name?");
+        builder.Prompts.text(session, "What is your name?");
     },
-    function (session,result) {
+    function (session, result) {
 
         session.userData.user = result.response;
         builder.Prompts.text(session, "Hi " + result.response + ", what is the title of your ticket?");
