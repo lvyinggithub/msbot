@@ -7,7 +7,7 @@ var maxId = mockupdata.maxId;
 
 module.exports = [
     function (session) {
-        builder.Prompt.text("What is your name?");
+        builder.Prompts.text("What is your name?");
     },
     function (session,result) {
 
