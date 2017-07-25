@@ -10,7 +10,7 @@ var path = require('path');
 
 //var useEmulator = true; // (process.env.NODE_ENV == 'development');
 
-var useEmulator =  (process.env.NODE_ENV == 'development');
+var useEmulator = (process.env.NODE_ENV == 'development');
 
 
 var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure.BotServiceConnector({
@@ -27,27 +27,40 @@ bot.localePath(path.join(__dirname, './locale'));
 //var luis_model_url = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/342e159a-d628-4be5-ab92-71e7b78a34c6?subscription-key=30bb88b89ec541859a7ab3dfdce72422&verbose=true";
 var luis_model_url = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/30a1be7e-d080-4bc4-86f9-72f04db269eb?subscription-key=0157389809544280bfd9d66763c7836f&verbose=true";
 var recognizer = new builder.LuisRecognizer(luis_model_url);
-bot.recognizer(recognizer);
+//bot.recognizer(recognizer);
 
-bot.dialog('/', [
-    function (session) {
-        session.send("Sorry, I can't understand you.");
-    }
-]);
 
-bot.dialog('qna', require('./qna.js')).triggerAction({
-    matches: "QnA"
-});
+var intentDialog = bot.dialog('/', new builder.IntentDialog({ recognizers: [recognizer] })
+    .onDefault(DefaultReplyHandler));
+
+function DefaultReplyHandler(session) {
+    session.endDialog('Sorry, I can\'t understand you.');
+}
+// bot
+
+intentDialog.matches('QnA', [function (session) {
+    session.beginDialog('qna');
+}]);
+
+bot.dialog('qna', require('./qna.js'));
+// bot.dialog('qna', require('./qna.js')).triggerAction({
+//     matches: "QnA"
+// });
 
 //integrate with querySD
-bot.dialog('querysd', require('./querySD.js')).triggerAction({
-    matches: "SearchSD"
-});
+intentDialog.matches('SearchSD', [function (session) {
+    session.beginDialog('querysd');
+}]);
+// bot.dialog('querysd', require('./querySD.js')).triggerAction({
+//     matches: "SearchSD"
+// });
+bot.dialog('querysd', require('./querySD.js'));
 
 //integrate with querySD
-bot.dialog('createsd', require('./createSD.js')).triggerAction({
-    matches: "CreateSD"
-});
+intentDialog.matches('CreateSD', require('./createSD.js'));
+// bot.dialog('createsd', require('./createSD.js')).triggerAction({
+//     matches: "CreateSD"
+// });
 
 //integrate with qnamaker
 // bot.dialog('qna', require('./qna.js')).triggerAction({

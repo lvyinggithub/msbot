@@ -6,9 +6,9 @@ module.exports = [
     function (session, args) {
 
         if (args && args.reprompt) {
-            builder.Prompts.text(session, "Sorry, we are not able to find the SD number, please try another SD number.")
+            builder.Prompts.text(session, "Sorry, we are not able to find the ticket number, please try another one.")
         } else {
-            builder.Prompts.text(session, "Please provide your SD number.");
+            builder.Prompts.text(session, "Please provide your ticket number.");
         }
 
     },

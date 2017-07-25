@@ -7,24 +7,21 @@ var maxId = mockupdata.maxId;
 
 module.exports = [
     function (session) {
-        builder.Prompts.text(session, "What's your name?");
-    },
-    function (session, results) {
-        session.userData.user = results.response;
-        builder.Prompts.text(session, "Hi " + results.response + ", please provide your service call title?");
+        session.userData.user = process.env.USERNAME;
+        builder.Prompts.text(session, "Hi " + process.env.USERNAME + ", what is the title of your ticket?");
     },
     function (session, results) {
         session.userData.title = results.response;
-        builder.Prompts.text(session, "Please enter the description?");
+        builder.Prompts.text(session, "What is the description of your ticket?");
     },
     function (session, results) {
         session.userData.description = results.response;
-        builder.Prompts.choice(session, "How is the impact?",
+        builder.Prompts.choice(session, "What is the impact of your ticket?",
             ["1-Top", "2-High", "3-Medium", "4-Low"]);
     },
     function (session, results) {
         session.userData.impact = results.response.entity;
-        builder.Prompts.choice(session, "How is the urgency?",
+        builder.Prompts.choice(session, "What is the urgency of your ticket?",
             ["1-Top", "2-High", "3-Medium", "4-Low"]);
     },
     function (session, results) {
