@@ -21,11 +21,11 @@ module.exports = {
             img = "https://bshbotsjs3sox.blob.core.windows.net/res/inprogress.png";
         }
 
-        var body = "* # User: " + result.user + "\n\n" +
-            "* # Urgency: " + result.urgency + "\n\n" +
-            "* # Impact: " + result.impact + "\n\n" +
-            "* # Status: " + result.status + "\n\n" +
-            "* # Resolution: " + result.resolution + "\n\n";
+        var body = "* User: " + result.user + "\n\n" +
+            "* Urgency: " + result.urgency + "\n\n" +
+            "* Impact: " + result.impact + "\n\n" +
+            "* Status: " + result.status + "\n\n" +
+            "* Resolution: " + result.resolution + "\n\n";
 
 
         return new builder.ThumbnailCard(session)
