@@ -26,7 +26,7 @@ module.exports = [
             msg.addAttachment(card);
 
             session.send(msg);
-
+            session.endDialog();
         }
     }
 ];
