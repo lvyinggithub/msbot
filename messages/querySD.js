@@ -5,6 +5,10 @@ var helper = require("./helper.js");
 module.exports = [
     function (session, args) {
 
+        var card = helper.adpativeCard();
+
+        session.send(new builder.Message(session).addAttachment(card));
+
         if (args && args.reprompt) {
             builder.Prompts.text(session, "Sorry, we are not able to find the ticket number, please try another one.")
         } else {
