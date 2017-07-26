@@ -112,5 +112,8 @@ module.exports = {
                 ]
             }
         }
+
+      
+        return card;
     }
 }
