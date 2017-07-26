@@ -5,10 +5,6 @@ var helper = require("./helper.js");
 module.exports = [
     function (session, args) {
 
-        var card = helper.adpativeCard();
-
-        session.send(new builder.Message(session).addAttachment(card));
-
         if (args && args.reprompt) {
             builder.Prompts.text(session, "Sorry, we are not able to find the ticket number, please try another one.")
         } else {
@@ -25,7 +21,9 @@ module.exports = [
             session.replaceDialog('querysd', { reprompt: true, });
         } else {
 
-            var card = helper.createThumbnailCard(session, result);
+            //var card = helper.createThumbnailCard(session, result);
+
+            var card = helper.adpativeCard(result);
             var msg = new builder.Message(session);
             msg.addAttachment(card);
 

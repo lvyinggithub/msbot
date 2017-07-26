@@ -3,7 +3,7 @@ var data = [{
     'title': 'How to order a Skype account?',
     'user': 'Shen, Wei (GIT-IOWS)',
     'description': 'How to order a Skype account?',
-    'impact': '4-Low',
+    'product': 'Printer',
     'urgency': '4-Low',
     'status': 'In Progress',
     'resolution': ''
@@ -14,7 +14,7 @@ var data = [{
     'title': 'I want a printer',
     'user': 'Shen, Wei (GIT-IOWS)',
     'description': 'I want a printer',
-    'impact': '4-Low',
+    'product': 'Laptop',
     'urgency': '4-Low',
     'status': 'Completed',
     'resolution': 'Please go to IT shop to order the printer.'
@@ -24,7 +24,7 @@ var data = [{
     'title': 'need access to Teamspace',
     'user': 'Shen, Wei (GIT-IOWS)',
     'description': 'I need to access to Teamspace',
-    'impact': '4-Low',
+    'product': 'Desktop',
     'urgency': '3-Medium',
     'status': 'In Progress',
     'resolution': ''

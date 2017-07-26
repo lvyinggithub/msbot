@@ -20,11 +20,11 @@ module.exports = [
     },
     function (session, results) {
         session.userData.description = results.response;
-        builder.Prompts.choice(session, "What is the impact of your ticket?",
-            ["1-Top", "2-High", "3-Medium", "4-Low"]);
+        builder.Prompts.choice(session, "What is the IT product?",
+            ["Laptop", "Desktop", "Printer", "Unknow"]);
     },
     function (session, results) {
-        session.userData.impact = results.response.entity;
+        session.userData.product = results.response.entity;
         builder.Prompts.choice(session, "What is the urgency of your ticket?",
             ["1-Top", "2-High", "3-Medium", "4-Low"]);
     },
@@ -38,7 +38,7 @@ module.exports = [
             'title': session.userData.title,
             'user': session.userData.user,
             'description': session.userData.description,
-            'impact': session.userData.impact,
+            'product': session.userData.product,
             'urgency': session.userData.urgency,
             'status': 'In Progress',
             'resolution': ''
@@ -49,7 +49,8 @@ module.exports = [
 
         maxId += 1;
 
-        var card = helper.createThumbnailCard(session, result);
+        // var card = helper.createThumbnailCard(session, result);
+        var card = helper.adpativeCard(result);
         var msg = new builder.Message(session);
         msg.addAttachment(card);
 
