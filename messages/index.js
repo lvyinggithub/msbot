@@ -8,7 +8,10 @@ var builder = require("botbuilder");
 var botbuilder_azure = require("botbuilder-azure");
 var path = require('path');
 
+//var useEmulator = true; // (process.env.NODE_ENV == 'development');
+
 var useEmulator = (process.env.NODE_ENV == 'development');
+
 
 var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure.BotServiceConnector({
     appId: process.env['MicrosoftAppId'],
@@ -20,33 +23,59 @@ var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure
 var bot = new builder.UniversalBot(connector);
 bot.localePath(path.join(__dirname, './locale'));
 
-bot.dialog('/', [
-    function (session) {
-        builder.Prompts.text(session, "Hello...Nice to meet you... What's your name?");
-    },
-    function (session, results) {
-        session.userData.name = results.response;
-        builder.Prompts.number(session, "Hi " + results.response + ", How many years have you been coding?"); 
-    },
-    function (session, results) {
-        session.userData.coding = results.response;
-        builder.Prompts.choice(session, "What language do you code Node using?", ["JavaScript", "CoffeeScript", "TypeScript"]);
-    },
-    function (session, results) {
-        session.userData.language = results.response.entity;
-        session.send("Got it... " + session.userData.name + 
-                    " you've been programming for " + session.userData.coding + 
-                    " years and use " + session.userData.language + ".");
-    }
-]);
+
+//var luis_model_url = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/342e159a-d628-4be5-ab92-71e7b78a34c6?subscription-key=30bb88b89ec541859a7ab3dfdce72422&verbose=true";
+var luis_model_url = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/30a1be7e-d080-4bc4-86f9-72f04db269eb?subscription-key=0157389809544280bfd9d66763c7836f&verbose=true";
+var recognizer = new builder.LuisRecognizer(luis_model_url);
+//bot.recognizer(recognizer);
+
+
+var intentDialog = bot.dialog('/', new builder.IntentDialog({ recognizers: [recognizer] })
+    .onDefault(DefaultReplyHandler));
+
+function DefaultReplyHandler(session) {
+    session.endDialog('Sorry, I can\'t understand you.');
+}
+// bot
+
+intentDialog.matches('QnA', [function (session) {
+    session.beginDialog('qna');
+}]);
+
+bot.dialog('qna', require('./qna.js'));
+// bot.dialog('qna', require('./qna.js')).triggerAction({
+//     matches: "QnA"
+// });
+
+//integrate with querySD
+intentDialog.matches('SearchSD', [function (session) {
+    session.beginDialog('querysd');
+}]);
+// bot.dialog('querysd', require('./querySD.js')).triggerAction({
+//     matches: "SearchSD"
+// });
+bot.dialog('querysd', require('./querySD.js'));
+
+//integrate with querySD
+intentDialog.matches('CreateSD', require('./createSD.js'));
+// bot.dialog('createsd', require('./createSD.js')).triggerAction({
+//     matches: "CreateSD"
+// });
+
+//integrate with qnamaker
+// bot.dialog('qna', require('./qna.js')).triggerAction({
+//     matches:"Teamspace"
+// });
+
+
 
 if (useEmulator) {
     var restify = require('restify');
     var server = restify.createServer();
-    server.listen(3978, function() {
+    server.listen(3978, function () {
         console.log('test bot endpont at http://localhost:3978/api/messages');
     });
-    server.post('/api/messages', connector.listen());    
+    server.post('/api/messages', connector.listen());
 } else {
     module.exports = { default: connector.listen() }
 }
