@@ -42,10 +42,18 @@ intentDialog.matches('QnA', [function (session) {
     session.beginDialog('qna');
 }]);
 
+
 bot.dialog('qna', require('./qna.js'));
 // bot.dialog('qna', require('./qna.js')).triggerAction({
 //     matches: "QnA"
 // });
+
+intentDialog.matches('talk', [function (session) {
+    session.beginDialog('talk');
+}]);
+
+
+bot.dialog('talk', require('./talk.js'));
 
 //integrate with querySD
 intentDialog.matches('SearchSD', [function (session) {

@@ -21,9 +21,9 @@ module.exports = [
             session.replaceDialog('querysd', { reprompt: true, });
         } else {
 
-            //var card = helper.createThumbnailCard(session, result);
+            var card = helper.createThumbnailCard(session, result);
 
-            var card = helper.adpativeCard(result);
+            //var card = helper.adpativeCard(result);
             var msg = new builder.Message(session);
             msg.addAttachment(card);
 
