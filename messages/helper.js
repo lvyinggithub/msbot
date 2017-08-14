@@ -216,5 +216,29 @@ module.exports = {
 
 
         return card;
+    },
+    heroCard: function (session, result) {
+
+        var img = null;
+
+        if (result.status === "Completed") {
+            img = "https://bshbotsjs3sox.blob.core.windows.net/res/complete.png";
+        } else {
+            img = "https://bshbotsjs3sox.blob.core.windows.net/res/inprogress.png";
+        }
+
+        var body = "* User: " + result.user + "\n\n" +
+            "* Urgency: " + result.urgency + "\n\n" +
+            "* Product: " + result.product + "\n\n";
+
+
+        return new builder.HeroCard(session)
+            .title(result.title)
+            .subtitle(result.status)
+            .text(body)
+            .images([
+                builder.CardImage.create(session, img)
+            ]);
+
     }
 }
