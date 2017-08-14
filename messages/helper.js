@@ -227,9 +227,7 @@ module.exports = {
             img = "https://bshbotsjs3sox.blob.core.windows.net/res/inprogress.png";
         }
 
-        var body = "* User: " + result.user + "\n\n" +
-            "* Urgency: " + result.urgency + "\n\n" +
-            "* Product: " + result.product + "\n\n";
+        var body = "Product: " + result.product;
 
 
         return new builder.HeroCard(session)
